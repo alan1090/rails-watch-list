@@ -1,0 +1,60 @@
+<div class="main-container">
+  <% if @list.photo.key %>
+    <div class="banner-list" style= "background-image: url('<%= cl_image_path @list.photo.key %>');">
+  <% else %>
+    <div class="banner-list-default">
+  <% end %>
+    <h1><%= @list.name %></h1>
+  </div>
+
+  <div class="container movies-container">
+      <div class="row">
+      <% @list.movies.each do |movie| %>
+      <% bookmark = Bookmark.find_by(list: @list, movie: movie) %>
+      <div class="col">
+      <div class="movie-card">
+          <% if movie.poster_url %>
+            <img src= "<%= movie.poster_url %>" %>
+          <% end %>
+          <p><%= movie.title %></p>
+          <p><%= link_to "Delete", bookmark_path(bookmark), data: { "turbo-method": :delete, "turbo-confirm": "Are you sure?"} %></p>
+        </div>
+      </div>
+          <% end %>
+      </div>
+  </div>
+
+  <div class="container form-container my-5" style="width: 500px;">
+    <h2 class="my-5">Add a new movie to the list</h2>
+    <%= simple_form_for [@list, @bookmark] do |f| %>
+      <div class="mb-3 select user_package_user_id">
+        <%= f.label :movie, 'Search Movie', class: "form-label select" %>
+        <%= f.text_field :movie, list: 'movie-list', class: 'login-input', autocomplete: 'off', class: "form-control"  %>
+        <datalist id="movie-list">
+          <% Movie.order(:id).all.each do |movie| %>
+            <option value="<%= movie.title %>"><%= movie.title %></option>
+          <% end %>
+        </datalist>
+      </div>
+      <%= f.input :comment, class: "form-control" %>
+      <%= f.button :submit, class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+
+<% if @movies["Search"] %>
+  <div class="container movies-container">
+    <div class="row">
+        <% @movies["Search"].each do |movie| %>
+        <div class="col">
+      <div class="movie-card">
+      <img src= "<%= movie["Poster"] %>">
+      <p><%= movie["Title"] %></p>
+      <%= link_to "Add to the list", import_bookmark_path(@list, movie: movie, comment: params[:comment]), data: {turbo_method: :post} %>
+  </div>
+        </div>
+          <% end %>
+      </div>
+<% end %>
+
+<%= console %>

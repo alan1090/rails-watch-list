@@ -1,1 +1,16 @@
 // Specific CSS for your home-page
+.banner {
+  height: 800px;
+  text-align: center;
+  align-content: center;
+  background-image: asset-url("cinema");
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 60px;
+
+    h1 {
+      color: white;
+      font-size: 80px;
+      font-weight: bold;
+    }
+}

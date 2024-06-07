@@ -1,0 +1,19 @@
+<div>
+  <div class="banner">
+    <h1>All my lists</h1>
+  </div>
+  <div class="container lists-container">
+    <div class="row">
+      <% @lists.each do |list| %>
+        <div class="col">
+          <div class="list-card">
+            <% if list.photo.key %>
+            <%= cl_image_tag  list.photo.key, width: "100%" %>
+            <% end %>
+            <p><%= link_to list.name, list_path(list), class: "m-3" %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
